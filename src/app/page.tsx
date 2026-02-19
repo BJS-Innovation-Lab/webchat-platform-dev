@@ -36,81 +36,41 @@ const content = {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// ANIMATED PARTICLES
-// ═══════════════════════════════════════════════════════════════════════════════
-
-function FloatingParticles() {
-  const [particles, setParticles] = useState<Array<{
-    id: number
-    x: number
-    y: number
-    size: number
-    duration: number
-    delay: number
-  }>>([])
-
-  useEffect(() => {
-    const newParticles = Array.from({ length: 60 }, (_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: Math.random() * 4 + 1,
-      duration: Math.random() * 20 + 15,
-      delay: Math.random() * 5,
-    }))
-    setParticles(newParticles)
-  }, [])
-
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {particles.map((p) => (
-        <motion.div
-          key={p.id}
-          className="absolute rounded-full bg-cyan-400/40"
-          style={{
-            left: `${p.x}%`,
-            width: p.size,
-            height: p.size,
-            filter: 'blur(0.5px)',
-          }}
-          initial={{ y: '100vh', opacity: 0 }}
-          animate={{
-            y: '-10vh',
-            opacity: [0, 1, 1, 0],
-          }}
-          transition={{
-            duration: p.duration,
-            delay: p.delay,
-            repeat: Infinity,
-            ease: 'linear',
-          }}
-        />
-      ))}
-    </div>
-  )
-}
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// ANIMATED BACKGROUND
+// ANIMATED BACKGROUND - More dramatic
 // ═══════════════════════════════════════════════════════════════════════════════
 
 function AnimatedBackground() {
   return (
     <div className="absolute inset-0 overflow-hidden">
-      {/* Base gradient */}
-      <div className="absolute inset-0 bg-[#030714]" />
+      {/* Base */}
+      <div className="absolute inset-0 bg-[#020617]" />
       
-      {/* Animated gradient orbs */}
+      {/* Main glow - center */}
       <motion.div
-        className="absolute w-[800px] h-[800px] rounded-full"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[600px] rounded-full"
         style={{
-          background: 'radial-gradient(circle, rgba(6, 182, 212, 0.15) 0%, transparent 70%)',
-          left: '-20%',
-          top: '10%',
+          background: 'radial-gradient(ellipse, rgba(6, 182, 212, 0.20) 0%, rgba(59, 130, 246, 0.10) 40%, transparent 70%)',
         }}
         animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.3, 0.5, 0.3],
+          scale: [1, 1.1, 1],
+          opacity: [0.6, 0.8, 0.6],
+        }}
+        transition={{
+          duration: 6,
+          repeat: Infinity,
+          ease: 'easeInOut',
+        }}
+      />
+      
+      {/* Secondary glow - left */}
+      <motion.div
+        className="absolute top-0 -left-[200px] w-[600px] h-[600px] rounded-full"
+        style={{
+          background: 'radial-gradient(circle, rgba(139, 92, 246, 0.25) 0%, transparent 60%)',
+        }}
+        animate={{
+          y: [0, 50, 0],
+          opacity: [0.4, 0.6, 0.4],
         }}
         transition={{
           duration: 8,
@@ -119,16 +79,15 @@ function AnimatedBackground() {
         }}
       />
       
+      {/* Secondary glow - right */}
       <motion.div
-        className="absolute w-[600px] h-[600px] rounded-full"
+        className="absolute bottom-0 -right-[200px] w-[600px] h-[600px] rounded-full"
         style={{
-          background: 'radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%)',
-          right: '-10%',
-          top: '30%',
+          background: 'radial-gradient(circle, rgba(6, 182, 212, 0.20) 0%, transparent 60%)',
         }}
         animate={{
-          scale: [1, 1.15, 1],
-          opacity: [0.3, 0.4, 0.3],
+          y: [0, -30, 0],
+          opacity: [0.3, 0.5, 0.3],
         }}
         transition={{
           duration: 10,
@@ -137,49 +96,74 @@ function AnimatedBackground() {
           delay: 2,
         }}
       />
-      
-      <motion.div
-        className="absolute w-[700px] h-[700px] rounded-full"
-        style={{
-          background: 'radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 70%)',
-          left: '30%',
-          bottom: '-20%',
-        }}
-        animate={{
-          scale: [1, 1.1, 1],
-          opacity: [0.2, 0.35, 0.2],
-        }}
-        transition={{
-          duration: 12,
-          repeat: Infinity,
-          ease: 'easeInOut',
-          delay: 4,
-        }}
-      />
 
-      {/* Floating particles */}
-      <FloatingParticles />
+      {/* Floating orbs - more visible */}
+      {[...Array(8)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute rounded-full"
+          style={{
+            width: 150 + i * 30,
+            height: 150 + i * 30,
+            left: `${10 + i * 12}%`,
+            top: `${20 + (i % 3) * 25}%`,
+            background: `radial-gradient(circle, ${i % 2 === 0 ? 'rgba(6, 182, 212, 0.08)' : 'rgba(139, 92, 246, 0.08)'} 0%, transparent 70%)`,
+            filter: 'blur(1px)',
+          }}
+          animate={{
+            y: [0, -30 - i * 5, 0],
+            x: [0, 15 - i * 3, 0],
+            scale: [1, 1.1, 1],
+          }}
+          transition={{
+            duration: 8 + i * 2,
+            repeat: Infinity,
+            ease: 'easeInOut',
+            delay: i * 0.5,
+          }}
+        />
+      ))}
       
-      {/* Grid overlay */}
+      {/* Stars / particles */}
+      {[...Array(50)].map((_, i) => (
+        <motion.div
+          key={`star-${i}`}
+          className="absolute rounded-full bg-white"
+          style={{
+            width: Math.random() * 2 + 1,
+            height: Math.random() * 2 + 1,
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+          }}
+          animate={{
+            opacity: [0.1, 0.6, 0.1],
+            scale: [1, 1.5, 1],
+          }}
+          transition={{
+            duration: 2 + Math.random() * 3,
+            repeat: Infinity,
+            delay: Math.random() * 5,
+          }}
+        />
+      ))}
+      
+      {/* Grid */}
       <div 
         className="absolute inset-0 opacity-[0.03]"
         style={{
-          backgroundImage: `
-            linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
-          `,
-          backgroundSize: '80px 80px',
+          backgroundImage: `linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)`,
+          backgroundSize: '100px 100px',
         }}
       />
       
-      {/* Vignette */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#030714]/80" />
+      {/* Top gradient fade */}
+      <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-[#020617] to-transparent" />
     </div>
   )
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// ROTATING WORDS
+// ROTATING WORDS - Bigger and more dramatic
 // ═══════════════════════════════════════════════════════════════════════════════
 
 function RotatingWords({ words }: { words: string[] }) {
@@ -188,20 +172,20 @@ function RotatingWords({ words }: { words: string[] }) {
   useEffect(() => {
     const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % words.length)
-    }, 3000)
+    }, 2500)
     return () => clearInterval(interval)
   }, [words.length])
 
   return (
-    <span className="relative inline-block h-[1.2em] overflow-hidden align-bottom">
+    <span className="relative inline-block">
       <AnimatePresence mode="wait">
         <motion.span
           key={index}
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -50 }}
-          transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="inline-block bg-gradient-to-r from-cyan-400 via-blue-400 to-violet-400 bg-clip-text text-transparent"
+          initial={{ opacity: 0, y: 40, filter: 'blur(8px)' }}
+          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          exit={{ opacity: 0, y: -40, filter: 'blur(8px)' }}
+          transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+          className="inline-block bg-gradient-to-r from-cyan-300 via-blue-400 to-violet-400 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(6,182,212,0.5)]"
         >
           {words[index]}
         </motion.span>
@@ -228,16 +212,16 @@ function LanguageSelector({
     <div className="relative z-50">
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
-        whileHover={{ scale: 1.05 }}
+        whileHover={{ scale: 1.05, backgroundColor: 'rgba(255,255,255,0.1)' }}
         whileTap={{ scale: 0.95 }}
-        className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/20 bg-white/5 hover:bg-white/10 backdrop-blur-md transition-all duration-300"
+        className="flex items-center gap-2 px-4 py-2.5 rounded-full border border-white/20 bg-white/5 backdrop-blur-md transition-colors"
       >
-        <span>{current?.flag}</span>
-        <span className="text-white/90 font-medium text-sm">{current?.label}</span>
+        <span className="text-lg">{current?.flag}</span>
+        <span className="text-white font-medium">{current?.label}</span>
         <motion.svg 
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: 0.2 }}
-          className="w-4 h-4 text-white/60" 
+          className="w-4 h-4 text-white/70" 
           fill="none" 
           viewBox="0 0 24 24" 
           stroke="currentColor"
@@ -251,26 +235,32 @@ function LanguageSelector({
           <>
             <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: -10 }}
+              initial={{ opacity: 0, scale: 0.9, y: -10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: -10 }}
-              transition={{ duration: 0.15 }}
-              className="absolute right-0 mt-2 w-40 rounded-2xl border border-white/10 bg-[#0c1222]/95 backdrop-blur-xl shadow-2xl overflow-hidden z-50"
+              exit={{ opacity: 0, scale: 0.9, y: -10 }}
+              transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+              className="absolute right-0 mt-2 w-44 rounded-2xl border border-white/10 bg-slate-900/95 backdrop-blur-xl shadow-2xl shadow-black/50 overflow-hidden z-50"
             >
               {languages.map((lang) => (
-                <button
+                <motion.button
                   key={lang.code}
+                  whileHover={{ backgroundColor: 'rgba(255,255,255,0.08)' }}
                   onClick={() => {
                     onChangeLang(lang.code as 'es' | 'en')
                     setIsOpen(false)
                   }}
-                  className={`w-full px-4 py-3 flex items-center gap-3 hover:bg-white/5 transition-colors ${
-                    currentLang === lang.code ? 'text-cyan-400' : 'text-white/70'
+                  className={`w-full px-4 py-3 flex items-center gap-3 transition-colors ${
+                    currentLang === lang.code ? 'text-cyan-400 bg-cyan-400/10' : 'text-white/80'
                   }`}
                 >
-                  <span>{lang.flag}</span>
+                  <span className="text-lg">{lang.flag}</span>
                   <span className="font-medium">{lang.name}</span>
-                </button>
+                  {currentLang === lang.code && (
+                    <svg className="w-4 h-4 ml-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                  )}
+                </motion.button>
               ))}
             </motion.div>
           </>
@@ -281,31 +271,39 @@ function LanguageSelector({
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// BUTTONS
+// BUTTONS - More alive
 // ═══════════════════════════════════════════════════════════════════════════════
 
 function PrimaryButton({ children }: { children: React.ReactNode }) {
   return (
     <motion.button
-      whileHover={{ scale: 1.03, boxShadow: '0 0 40px rgba(6, 182, 212, 0.4)' }}
-      whileTap={{ scale: 0.97 }}
-      className="relative px-8 py-4 rounded-full font-semibold text-lg text-white overflow-hidden group"
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      className="group relative px-8 py-4 rounded-full font-semibold text-lg text-white overflow-hidden shadow-[0_0_40px_rgba(6,182,212,0.3)]"
     >
+      {/* Gradient base */}
       <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 via-blue-500 to-violet-500" />
+      
+      {/* Animated shine */}
+      <motion.div
+        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12"
+        initial={{ x: '-100%' }}
+        whileHover={{ x: '100%' }}
+        transition={{ duration: 0.6 }}
+      />
+      
+      {/* Glow on hover */}
       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-cyan-400 via-blue-400 to-violet-400" />
-      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-        <div className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 bg-gradient-to-r from-transparent via-white/25 to-transparent skew-x-12" />
-      </div>
+      
       <span className="relative z-10 flex items-center gap-2">
         {children}
-        <motion.svg 
-          className="w-5 h-5"
-          fill="none" 
-          viewBox="0 0 24 24" 
-          stroke="currentColor"
+        <motion.span
+          className="inline-block"
+          whileHover={{ x: 5 }}
+          transition={{ type: 'spring', stiffness: 400 }}
         >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-        </motion.svg>
+          →
+        </motion.span>
       </span>
     </motion.button>
   )
@@ -314,13 +312,12 @@ function PrimaryButton({ children }: { children: React.ReactNode }) {
 function SecondaryButton({ children }: { children: React.ReactNode }) {
   return (
     <motion.button
-      whileHover={{ scale: 1.03, borderColor: 'rgba(255,255,255,0.3)' }}
-      whileTap={{ scale: 0.97 }}
-      className="px-8 py-4 rounded-full font-medium text-lg text-white/80 hover:text-white border border-white/15 hover:bg-white/5 transition-all duration-300 flex items-center gap-2"
+      whileHover={{ scale: 1.05, borderColor: 'rgba(6,182,212,0.5)' }}
+      whileTap={{ scale: 0.95 }}
+      className="group px-8 py-4 rounded-full font-medium text-lg text-white/80 hover:text-white border border-white/20 hover:border-cyan-400/50 hover:bg-white/5 transition-all duration-300 flex items-center gap-2"
     >
-      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15.91 11.672a.375.375 0 010 .656l-5.603 3.113a.375.375 0 01-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112z" />
+      <svg className="w-5 h-5 text-cyan-400" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M8 5v14l11-7z"/>
       </svg>
       {children}
     </motion.button>
@@ -340,22 +337,23 @@ function TrustBar({ t }: { t: typeof content.es }) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: 1.0 }}
-      className="absolute bottom-0 left-0 right-0 border-t border-white/5 bg-black/20 backdrop-blur-sm"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8, delay: 0.8 }}
+      className="absolute bottom-0 left-0 right-0 border-t border-white/10 bg-gradient-to-r from-transparent via-white/[0.02] to-transparent"
     >
-      <div className="max-w-4xl mx-auto px-6 py-5">
-        <div className="flex items-center justify-center gap-8 md:gap-16">
+      <div className="max-w-3xl mx-auto px-6 py-5">
+        <div className="flex items-center justify-center gap-10 md:gap-16">
           {items.map((item, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 15 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 1.2 + i * 0.1 }}
-              className="flex items-center gap-2 text-white/40"
+              transition={{ duration: 0.5, delay: 1 + i * 0.15 }}
+              whileHover={{ scale: 1.05 }}
+              className="flex items-center gap-2 text-white/50 hover:text-white/70 transition-colors cursor-default"
             >
-              <span className="text-base">{item.icon}</span>
+              <span className="text-cyan-400">{item.icon}</span>
               <span className="text-sm font-medium">{item.text}</span>
             </motion.div>
           ))}
@@ -378,10 +376,10 @@ export default function Home() {
     setMounted(true)
   }, [])
 
-  if (!mounted) return <div className="min-h-screen bg-[#030714]" />
+  if (!mounted) return <div className="min-h-screen bg-[#020617]" />
 
   return (
-    <main className="min-h-screen bg-[#030714] overflow-hidden">
+    <main className="min-h-screen bg-[#020617] overflow-hidden">
       {/* ════════════════════════════════════════════════════════════════════════
           BLOQUE 1 — HERO
           ════════════════════════════════════════════════════════════════════════ */}
@@ -392,34 +390,50 @@ export default function Home() {
 
         {/* Navbar */}
         <motion.nav 
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="relative z-20 flex items-center justify-between px-6 md:px-12 lg:px-20 py-5"
+          transition={{ duration: 0.6, ease: 'easeOut' }}
+          className="relative z-20 flex items-center justify-between px-6 md:px-12 lg:px-20 py-6"
         >
+          {/* Logo */}
           <motion.div 
             className="flex items-center gap-3"
-            whileHover={{ scale: 1.02 }}
+            whileHover={{ scale: 1.03 }}
           >
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center shadow-lg shadow-cyan-500/30">
-              <span className="text-white font-bold text-lg">V</span>
+            <div className="relative">
+              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-cyan-400 via-blue-500 to-violet-500 flex items-center justify-center">
+                <span className="text-white font-bold text-xl">V</span>
+              </div>
+              <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-cyan-400 to-violet-500 blur-xl opacity-50" />
             </div>
             <span className="text-white font-bold text-2xl tracking-tight">VULKN</span>
           </motion.div>
           
+          {/* Language Selector */}
           <LanguageSelector currentLang={lang} onChangeLang={setLang} />
         </motion.nav>
 
-        {/* Hero Content - Centered */}
+        {/* Hero Content */}
         <div className="relative z-10 flex-1 flex items-center justify-center px-6">
-          <div className="max-w-4xl mx-auto text-center -mt-16">
+          <div className="max-w-5xl mx-auto text-center">
+            
+            {/* Badge */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 mb-8"
+            >
+              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+              <span className="text-white/60 text-sm font-medium">Arquitectura AI de nueva generación</span>
+            </motion.div>
             
             {/* Headline */}
             <motion.h1 
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.1] tracking-tight mb-6"
+              className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white leading-[1.05] tracking-tight mb-8"
             >
               {t.headline_static}
               <br />
@@ -428,10 +442,10 @@ export default function Home() {
             
             {/* Subtitle */}
             <motion.p 
-              initial={{ opacity: 0, y: 25 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="text-lg md:text-xl text-white/50 max-w-2xl mx-auto mb-10"
+              className="text-lg md:text-xl lg:text-2xl text-white/50 max-w-2xl mx-auto mb-12"
             >
               {t.subtitle}
             </motion.p>
