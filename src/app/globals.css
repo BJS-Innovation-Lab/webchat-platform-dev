@@ -1,47 +1,11 @@
 @import "tailwindcss";
 
 /* ═══════════════════════════════════════════════════════════════════════════════
-   VULKN - Ultra Premium Typography & Theme
-   Reference: Apple, Linear, Vercel
+   VULKN - Ultra Premium Theme
    ═══════════════════════════════════════════════════════════════════════════════ */
 
-/* Geist - Vercel's font (similar to SF Pro but available) */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
-@font-face {
-  font-family: 'Geist';
-  src: url('https://assets.vercel.com/raw/upload/v1587415301/fonts/geist/Geist-Regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Geist';
-  src: url('https://assets.vercel.com/raw/upload/v1587415301/fonts/geist/Geist-Medium.woff2') format('woff2');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Geist';
-  src: url('https://assets.vercel.com/raw/upload/v1587415301/fonts/geist/Geist-SemiBold.woff2') format('woff2');
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Geist';
-  src: url('https://assets.vercel.com/raw/upload/v1587415301/fonts/geist/Geist-Bold.woff2') format('woff2');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
 :root {
-  --font-sans: 'Geist', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 * {
@@ -54,24 +18,19 @@ html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
 }
 
 body {
   font-family: var(--font-sans);
   background: #000208;
   color: #ffffff;
-  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
-  letter-spacing: -0.01em;
 }
 
-/* Premium selection */
 ::selection {
   background: rgba(6, 182, 212, 0.25);
   color: white;
 }
 
-/* Minimal scrollbar */
 ::-webkit-scrollbar {
   width: 5px;
 }
@@ -83,26 +42,4 @@ body {
 ::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.08);
   border-radius: 2.5px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.12);
-}
-
-/* Focus ring */
-*:focus-visible {
-  outline: 1px solid rgba(6, 182, 212, 0.4);
-  outline-offset: 2px;
-}
-
-/* Smooth all transitions */
-*, *::before, *::after {
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform;
-  transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
-  transition-duration: 200ms;
-}
-
-/* Reset button transitions for specific control */
-button, a {
-  transition-duration: 150ms;
 }
