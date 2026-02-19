@@ -16,7 +16,7 @@ const languages = [
 
 const content = {
   en: {
-    nav: { platform: 'Platform', solutions: 'Solutions', enterprise: 'Enterprise', resources: 'Resources', demo: 'Request Demo' },
+    nav: { how: 'How It Works', features: 'Features', pricing: 'Pricing', demo: 'Request Demo' },
     badge: 'Limited spots for Q1 2025',
     headline1: 'Deploy in 6 days',
     headline2: 'what takes others 6 months.',
@@ -31,7 +31,7 @@ const content = {
     scroll: 'Explore',
   },
   es: {
-    nav: { platform: 'Plataforma', solutions: 'Soluciones', enterprise: 'Empresas', resources: 'Recursos', demo: 'Solicitar Demo' },
+    nav: { how: 'Cómo Funciona', features: 'Características', pricing: 'Precios', demo: 'Solicitar Demo' },
     badge: 'Cupos limitados Q1 2025',
     headline1: 'Despliega en 6 días',
     headline2: 'lo que a otros les toma 6 meses.',
@@ -46,7 +46,7 @@ const content = {
     scroll: 'Explorar',
   },
   pt: {
-    nav: { platform: 'Plataforma', solutions: 'Soluções', enterprise: 'Empresas', resources: 'Recursos', demo: 'Solicitar Demo' },
+    nav: { how: 'Como Funciona', features: 'Recursos', pricing: 'Preços', demo: 'Solicitar Demo' },
     badge: 'Vagas limitadas Q1 2025',
     headline1: 'Implante em 6 dias',
     headline2: 'o que outros levam 6 meses.',
@@ -61,7 +61,7 @@ const content = {
     scroll: 'Explorar',
   },
   fr: {
-    nav: { platform: 'Plateforme', solutions: 'Solutions', enterprise: 'Entreprise', resources: 'Ressources', demo: 'Demander Démo' },
+    nav: { how: 'Comment ça marche', features: 'Fonctionnalités', pricing: 'Tarifs', demo: 'Demander Démo' },
     badge: 'Places limitées Q1 2025',
     headline1: 'Déployez en 6 jours',
     headline2: 'ce qui prend 6 mois aux autres.',
@@ -101,66 +101,125 @@ function VulknLogo({ className = "h-8" }: { className?: string }) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// BREATHING BACKGROUND - Diffuse lights, no particles
+// SPACE BACKGROUND - Deep navy + particles + breathing cyan glows
 // ═══════════════════════════════════════════════════════════════════════════════
 
-function BreathingBackground() {
+function SpaceBackground() {
+  const [particles, setParticles] = useState<Array<{id: number; x: number; y: number; size: number; duration: number; delay: number; opacity: number}>>([])
+  
+  useEffect(() => {
+    setParticles(Array.from({ length: 80 }, (_, i) => ({
+      id: i,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: Math.random() * 2 + 0.5,
+      duration: Math.random() * 30 + 20,
+      delay: Math.random() * 15,
+      opacity: Math.random() * 0.5 + 0.2,
+    })))
+  }, [])
+
   return (
     <div className="absolute inset-0 overflow-hidden">
-      {/* Base */}
-      <div className="absolute inset-0 bg-[#040506]" />
+      {/* Deep navy base - not flat black */}
+      <div className="absolute inset-0 bg-[#03070f]" />
       
-      {/* Top-left cyan glow */}
+      {/* Deep space gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#040a18] via-[#03070f] to-[#020510]" />
+      
+      {/* Top-left breathing cyan glow */}
       <motion.div
-        className="absolute -top-[400px] -left-[400px] w-[1000px] h-[1000px]"
+        className="absolute -top-[300px] -left-[300px] w-[900px] h-[900px]"
         style={{
-          background: 'radial-gradient(circle, rgba(6, 182, 212, 0.12) 0%, rgba(6, 182, 212, 0.05) 30%, transparent 60%)',
+          background: 'radial-gradient(circle, rgba(6, 182, 212, 0.08) 0%, rgba(6, 182, 212, 0.03) 40%, transparent 70%)',
+        }}
+        animate={{
+          scale: [1, 1.2, 1],
+          opacity: [0.5, 0.8, 0.5],
+          x: [0, 40, 0],
+          y: [0, 30, 0],
+        }}
+        transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
+      />
+      
+      {/* Top-right breathing blue glow */}
+      <motion.div
+        className="absolute -top-[200px] -right-[200px] w-[800px] h-[800px]"
+        style={{
+          background: 'radial-gradient(circle, rgba(59, 130, 246, 0.06) 0%, rgba(59, 130, 246, 0.02) 45%, transparent 70%)',
         }}
         animate={{
           scale: [1, 1.15, 1],
-          opacity: [0.6, 0.9, 0.6],
-          x: [0, 30, 0],
-          y: [0, 20, 0],
+          opacity: [0.4, 0.7, 0.4],
+          x: [0, -30, 0],
+          y: [0, 25, 0],
         }}
-        transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
+        transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
       />
       
-      {/* Top-right blue glow */}
+      {/* Bottom breathing cyan glow */}
       <motion.div
-        className="absolute -top-[300px] -right-[300px] w-[900px] h-[900px]"
+        className="absolute -bottom-[400px] left-1/2 -translate-x-1/2 w-[1400px] h-[800px]"
         style={{
-          background: 'radial-gradient(circle, rgba(59, 130, 246, 0.10) 0%, rgba(59, 130, 246, 0.04) 35%, transparent 60%)',
+          background: 'radial-gradient(ellipse, rgba(6, 182, 212, 0.05) 0%, rgba(6, 182, 212, 0.02) 40%, transparent 70%)',
         }}
         animate={{
           scale: [1, 1.1, 1],
-          opacity: [0.5, 0.8, 0.5],
-          x: [0, -25, 0],
-          y: [0, 15, 0],
+          opacity: [0.3, 0.6, 0.3],
         }}
-        transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+        transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut', delay: 6 }}
       />
       
-      {/* Bottom center glow */}
+      {/* Floating particles - subtle stars */}
+      {particles.map((p) => (
+        <motion.div
+          key={p.id}
+          className="absolute rounded-full"
+          style={{
+            width: p.size,
+            height: p.size,
+            left: `${p.x}%`,
+            top: `${p.y}%`,
+            background: p.id % 3 === 0 ? 'rgba(6, 182, 212, 0.8)' : 'rgba(255, 255, 255, 0.6)',
+            boxShadow: p.id % 3 === 0 ? '0 0 4px rgba(6, 182, 212, 0.5)' : 'none',
+          }}
+          animate={{
+            opacity: [p.opacity * 0.3, p.opacity, p.opacity * 0.3],
+            scale: [1, 1.2, 1],
+          }}
+          transition={{
+            duration: p.duration / 5,
+            delay: p.delay,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+        />
+      ))}
+      
+      {/* Shooting star effect - occasional */}
       <motion.div
-        className="absolute -bottom-[500px] left-1/2 -translate-x-1/2 w-[1200px] h-[800px]"
-        style={{
-          background: 'radial-gradient(ellipse, rgba(6, 182, 212, 0.08) 0%, rgba(59, 130, 246, 0.04) 40%, transparent 65%)',
-        }}
+        className="absolute w-[100px] h-[1px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-0"
+        style={{ top: '20%', left: '10%', rotate: '45deg' }}
         animate={{
-          scale: [1, 1.08, 1],
-          opacity: [0.4, 0.7, 0.4],
+          x: [0, 300],
+          opacity: [0, 0.6, 0],
         }}
-        transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut', delay: 4 }}
+        transition={{
+          duration: 1.5,
+          repeat: Infinity,
+          repeatDelay: 8,
+          ease: 'easeOut',
+        }}
       />
       
-      {/* Subtle vignette */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,#040506_70%)]" />
+      {/* Subtle vignette for depth */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(3,7,15,0.4)_50%,rgba(3,7,15,0.8)_100%)]" />
     </div>
   )
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// NAVBAR
+// NAVBAR - Balanced with center links
 // ═══════════════════════════════════════════════════════════════════════════════
 
 function Navbar({ lang, setLang, t }: { lang: Lang; setLang: (l: Lang) => void; t: typeof content.en }) {
@@ -180,29 +239,37 @@ function Navbar({ lang, setLang, t }: { lang: Lang; setLang: (l: Lang) => void; 
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled ? 'bg-[#040506]/80 backdrop-blur-2xl border-b border-white/[0.04]' : ''
+        scrolled ? 'bg-[#03070f]/80 backdrop-blur-2xl border-b border-white/[0.04]' : ''
       }`}
     >
       <nav className="max-w-[1400px] mx-auto px-6 lg:px-12">
         <div className="flex items-center justify-between h-20">
-          <VulknLogo className="h-7" />
+          
+          {/* Logo - Left */}
+          <div className="flex-shrink-0">
+            <VulknLogo className="h-7" />
+          </div>
 
-          <div className="hidden lg:flex items-center gap-10">
-            {[t.nav.platform, t.nav.solutions, t.nav.enterprise, t.nav.resources].map((item, i) => (
+          {/* Center Navigation Links */}
+          <div className="hidden md:flex items-center justify-center gap-10">
+            {[t.nav.how, t.nav.features, t.nav.pricing].map((item, i) => (
               <motion.a
                 key={item}
                 href="#"
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 + i * 0.05 }}
-                className="text-[15px] text-white/40 hover:text-white transition-colors"
+                className="text-[15px] text-white/50 hover:text-white transition-colors duration-200"
               >
                 {item}
               </motion.a>
             ))}
           </div>
 
+          {/* Right Section */}
           <div className="flex items-center gap-4">
+            
+            {/* Language Selector */}
             <div className="relative">
               <button
                 onClick={() => setLangOpen(!langOpen)}
@@ -223,7 +290,7 @@ function Navbar({ lang, setLang, t }: { lang: Lang; setLang: (l: Lang) => void; 
                       initial={{ opacity: 0, y: -8 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -8 }}
-                      className="absolute right-0 mt-3 w-44 py-2 rounded-xl bg-[#0a0c10] border border-white/[0.06] shadow-2xl z-50"
+                      className="absolute right-0 mt-3 w-44 py-2 rounded-xl bg-[#0a0e18] border border-white/[0.06] shadow-2xl z-50"
                     >
                       {languages.map((l) => (
                         <button
@@ -243,11 +310,14 @@ function Navbar({ lang, setLang, t }: { lang: Lang; setLang: (l: Lang) => void; 
               </AnimatePresence>
             </div>
 
+            {/* Demo Button */}
             <motion.button
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3 }}
-              className="hidden sm:block px-5 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 rounded-lg transition-all shadow-lg shadow-cyan-500/20"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="hidden sm:block px-5 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 rounded-lg transition-all shadow-lg shadow-cyan-500/25"
             >
               {t.nav.demo}
             </motion.button>
@@ -259,7 +329,7 @@ function Navbar({ lang, setLang, t }: { lang: Lang; setLang: (l: Lang) => void; 
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// HERO SECTION - Everything centered
+// HERO SECTION - Surgically centered
 // ═══════════════════════════════════════════════════════════════════════════════
 
 function HeroSection({ t }: { t: typeof content.en }) {
@@ -270,14 +340,14 @@ function HeroSection({ t }: { t: typeof content.en }) {
 
   return (
     <section ref={ref} className="relative min-h-screen flex flex-col justify-center pt-20">
-      <motion.div style={{ opacity, y }} className="relative z-10 max-w-[1100px] mx-auto px-6 lg:px-12 py-16">
+      <motion.div style={{ opacity, y }} className="relative z-10 w-full max-w-[1100px] mx-auto px-6 lg:px-12 py-16">
         
         {/* Badge + Harvard - CENTERED */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 mb-12"
+          className="w-full flex flex-wrap items-center justify-center gap-4 sm:gap-6 mb-12"
         >
           <div className="flex items-center gap-2.5 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/20">
             <motion.span
@@ -302,7 +372,7 @@ function HeroSection({ t }: { t: typeof content.en }) {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-center mb-8"
+          className="w-full text-center mb-8"
         >
           <h1 className="text-[clamp(2.5rem,6vw,4.5rem)] font-semibold leading-[1.1] tracking-[-0.03em]">
             <span className="text-white">{t.headline1}</span>
@@ -322,29 +392,32 @@ function HeroSection({ t }: { t: typeof content.en }) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="text-center text-lg md:text-xl text-white/40 max-w-2xl mx-auto mb-12 leading-relaxed"
+          className="w-full text-center text-lg md:text-xl text-white/40 max-w-2xl mx-auto mb-12 leading-relaxed"
         >
           {t.subtitle}
         </motion.p>
 
-        {/* CTAs - CENTERED */}
+        {/* CTAs - CENTERED with enhanced primary button */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.5 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20"
+          className="w-full flex flex-col sm:flex-row items-center justify-center gap-4 mb-20"
         >
+          {/* Primary Button - Floating with cyan shadow */}
           <motion.button
-            whileHover={{ scale: 1.02, boxShadow: '0 25px 50px -12px rgba(6, 182, 212, 0.35)' }}
+            whileHover={{ scale: 1.03, y: -2 }}
             whileTap={{ scale: 0.98 }}
-            className="w-full sm:w-auto px-8 py-4 text-[15px] font-semibold text-white bg-gradient-to-r from-cyan-500 to-blue-500 rounded-xl transition-all"
+            className="w-full sm:w-auto px-8 py-4 text-[15px] font-semibold text-white bg-gradient-to-r from-cyan-500 to-blue-500 rounded-xl transition-all duration-300 shadow-[0_8px_30px_rgba(6,182,212,0.4)] hover:shadow-[0_12px_40px_rgba(6,182,212,0.5)]"
           >
             {t.cta1}
           </motion.button>
+          
+          {/* Secondary Button */}
           <motion.button
             whileHover={{ scale: 1.02, borderColor: 'rgba(6, 182, 212, 0.5)' }}
             whileTap={{ scale: 0.98 }}
-            className="w-full sm:w-auto px-8 py-4 text-[15px] font-medium text-white/60 hover:text-white border border-white/10 hover:border-cyan-500/50 rounded-xl transition-all flex items-center justify-center gap-2"
+            className="w-full sm:w-auto px-8 py-4 text-[15px] font-medium text-white/60 hover:text-white border border-white/10 hover:border-cyan-500/50 rounded-xl transition-all duration-300 flex items-center justify-center gap-2"
           >
             <svg className="w-4 h-4 text-cyan-400" fill="currentColor" viewBox="0 0 24 24">
               <path d="M8 5v14l11-7z"/>
@@ -353,12 +426,12 @@ function HeroSection({ t }: { t: typeof content.en }) {
           </motion.button>
         </motion.div>
 
-        {/* STATS - MASSIVE PROMINENCE - CENTERED */}
+        {/* STATS - Massive prominence - CENTERED */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-12 sm:gap-20 lg:gap-28"
+          className="w-full flex flex-col sm:flex-row items-center justify-center gap-12 sm:gap-20 lg:gap-28"
         >
           {t.stats.map((stat, i) => (
             <motion.div
@@ -404,7 +477,7 @@ function HeroSection({ t }: { t: typeof content.en }) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// FEATURES - Consistent modern icons
+// FEATURES SECTION
 // ═══════════════════════════════════════════════════════════════════════════════
 
 function FeaturesSection() {
@@ -423,18 +496,17 @@ function FeaturesSection() {
     },
   ]
 
-  // Consistent modern icon - all use the same style
   const ModernIcon = ({ index }: { index: number }) => (
     <svg className="w-8 h-8" viewBox="0 0 32 32" fill="none">
       <defs>
-        <linearGradient id={`icon-grad-${index}`} x1="0%" y1="0%" x2="100%" y2="100%">
+        <linearGradient id={`feat-grad-${index}`} x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor="#06b6d4" />
           <stop offset="100%" stopColor="#3b82f6" />
         </linearGradient>
       </defs>
-      <rect x="4" y="4" width="24" height="24" rx="6" stroke={`url(#icon-grad-${index})`} strokeWidth="1.5" fill="none" />
-      <rect x="10" y="10" width="12" height="12" rx="3" fill={`url(#icon-grad-${index})`} opacity="0.2" />
-      <rect x="12" y="12" width="8" height="8" rx="2" fill={`url(#icon-grad-${index})`} opacity="0.5" />
+      <rect x="4" y="4" width="24" height="24" rx="6" stroke={`url(#feat-grad-${index})`} strokeWidth="1.5" fill="none" />
+      <rect x="10" y="10" width="12" height="12" rx="3" fill={`url(#feat-grad-${index})`} opacity="0.2" />
+      <rect x="12" y="12" width="8" height="8" rx="2" fill={`url(#feat-grad-${index})`} opacity="0.5" />
     </svg>
   )
 
@@ -488,11 +560,11 @@ export default function Home() {
   const t = content[lang]
 
   useEffect(() => { setMounted(true) }, [])
-  if (!mounted) return <div className="min-h-screen bg-[#040506]" />
+  if (!mounted) return <div className="min-h-screen bg-[#03070f]" />
 
   return (
-    <main className="min-h-screen bg-[#040506] text-white antialiased">
-      <BreathingBackground />
+    <main className="min-h-screen bg-[#03070f] text-white antialiased">
+      <SpaceBackground />
       <Navbar lang={lang} setLang={setLang} t={t} />
       <HeroSection t={t} />
       <FeaturesSection />
