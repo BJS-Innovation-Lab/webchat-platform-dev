@@ -1,15 +1,47 @@
 @import "tailwindcss";
 
 /* ═══════════════════════════════════════════════════════════════════════════════
-   VULKN - Enterprise Premium Theme
-   Reference: Stripe, Linear, Vercel
+   VULKN - Ultra Premium Typography & Theme
+   Reference: Apple, Linear, Vercel
    ═══════════════════════════════════════════════════════════════════════════════ */
 
+/* Geist - Vercel's font (similar to SF Pro but available) */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
+@font-face {
+  font-family: 'Geist';
+  src: url('https://assets.vercel.com/raw/upload/v1587415301/fonts/geist/Geist-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Geist';
+  src: url('https://assets.vercel.com/raw/upload/v1587415301/fonts/geist/Geist-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Geist';
+  src: url('https://assets.vercel.com/raw/upload/v1587415301/fonts/geist/Geist-SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Geist';
+  src: url('https://assets.vercel.com/raw/upload/v1587415301/fonts/geist/Geist-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
-  --background: #08090d;
-  --foreground: #ffffff;
+  --font-sans: 'Geist', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 * {
@@ -26,21 +58,22 @@ html {
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font-sans);
+  background: #000208;
+  color: #ffffff;
   font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  letter-spacing: -0.01em;
 }
 
-/* Selection */
+/* Premium selection */
 ::selection {
-  background: rgba(59, 130, 246, 0.3);
+  background: rgba(6, 182, 212, 0.25);
   color: white;
 }
 
-/* Scrollbar - minimal */
+/* Minimal scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -48,21 +81,28 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 2.5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.12);
 }
 
-/* Focus */
+/* Focus ring */
 *:focus-visible {
-  outline: 2px solid rgba(59, 130, 246, 0.5);
+  outline: 1px solid rgba(6, 182, 212, 0.4);
   outline-offset: 2px;
 }
 
-/* Smooth transitions */
+/* Smooth all transitions */
+*, *::before, *::after {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform;
+  transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+  transition-duration: 200ms;
+}
+
+/* Reset button transitions for specific control */
 button, a {
-  transition: all 0.2s ease;
+  transition-duration: 150ms;
 }
