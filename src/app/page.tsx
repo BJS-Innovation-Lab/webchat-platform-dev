@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
-import { motion, useMotionValue, useSpring, useScroll, useTransform } from 'framer-motion'
+import { useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // CONTENT
@@ -9,313 +9,115 @@ import { motion, useMotionValue, useSpring, useScroll, useTransform } from 'fram
 
 const content = {
   en: {
-    badge: 'Limited spots for Q1 2025',
-    h1a: 'Deploy in',
-    h1b: '6 days',
-    h1c: 'what takes others',
-    h1d: '6 months',
-    sub: 'VULKN is the autonomous AI platform that builds, operates, and scales your entire digital business — while your competitors are still hiring.',
-    cta: 'Start Your Transformation',
-    cta2: 'Book a Demo',
+    tagline: 'The Future of Enterprise',
+    h1: 'Deploy in 6 days\nwhat takes others\n6 months.',
+    sub: 'VULKN is the autonomous AI platform that builds, operates, and scales your entire digital business.',
+    cta: 'Begin Your Journey',
+    cta2: 'Schedule a Conversation',
     stats: [
-      { value: '$2.4M', label: 'Avg. annual savings' },
-      { value: '47%', label: 'Efficiency gain' },
-      { value: '6', label: 'Days to deploy', suffix: 'days' },
+      { value: '$2.4M', label: 'Average Annual Savings' },
+      { value: '47%', label: 'Efficiency Improvement' },
+      { value: '6 Days', label: 'To Full Deployment' },
     ],
+    trusted: 'Trusted by Harvard Innovation Labs',
   },
   es: {
-    badge: 'Plazas limitadas para Q1 2025',
-    h1a: 'Despliega en',
-    h1b: '6 días',
-    h1c: 'lo que a otros les toma',
-    h1d: '6 meses',
-    sub: 'VULKN es la plataforma de IA autónoma que construye, opera y escala todo tu negocio digital — mientras tu competencia sigue contratando.',
-    cta: 'Inicia Tu Transformación',
-    cta2: 'Agendar Demo',
+    tagline: 'El Futuro Empresarial',
+    h1: 'Despliega en 6 días\nlo que a otros les toma\n6 meses.',
+    sub: 'VULKN es la plataforma de IA autónoma que construye, opera y escala todo tu negocio digital.',
+    cta: 'Comienza Tu Viaje',
+    cta2: 'Agenda una Conversación',
     stats: [
-      { value: '$2.4M', label: 'Ahorro anual prom.' },
-      { value: '47%', label: 'Ganancia eficiencia' },
-      { value: '6', label: 'Días para implementar', suffix: 'días' },
+      { value: '$2.4M', label: 'Ahorro Anual Promedio' },
+      { value: '47%', label: 'Mejora en Eficiencia' },
+      { value: '6 Días', label: 'Para Implementación' },
     ],
+    trusted: 'Respaldado por Harvard Innovation Labs',
   },
 }
 
 type Lang = 'en' | 'es'
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// GRADIENT MESH BACKGROUND - Linear style
+// ELEGANT BACKGROUND - Subtle, sophisticated
 // ═══════════════════════════════════════════════════════════════════════════════
 
-function GradientMesh() {
-  return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none">
-      {/* Base void */}
-      <div className="absolute inset-0 bg-black" />
-      
-      {/* Main gradient orb - top center */}
-      <motion.div 
-        className="absolute -top-[30%] left-1/2 -translate-x-1/2 w-[1200px] h-[1200px] animate-pulse-slow"
-        style={{
-          background: 'radial-gradient(circle, rgba(0,240,255,0.15) 0%, rgba(139,92,246,0.08) 40%, transparent 70%)',
-          filter: 'blur(80px)',
-        }}
-        animate={{
-          scale: [1, 1.1, 1],
-        }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-      />
-      
-      {/* Secondary orb - left */}
-      <motion.div 
-        className="absolute top-1/4 -left-[20%] w-[800px] h-[800px] animate-float"
-        style={{
-          background: 'radial-gradient(circle, rgba(139,92,246,0.12) 0%, transparent 60%)',
-          filter: 'blur(100px)',
-          animationDelay: '2s',
-        }}
-      />
-      
-      {/* Tertiary orb - right bottom */}
-      <motion.div 
-        className="absolute -bottom-[10%] -right-[10%] w-[700px] h-[700px] animate-morph"
-        style={{
-          background: 'radial-gradient(circle, rgba(0,240,255,0.1) 0%, rgba(255,107,53,0.05) 50%, transparent 70%)',
-          filter: 'blur(80px)',
-        }}
-        animate={{
-          x: [0, 30, 0],
-          y: [0, -20, 0],
-        }}
-        transition={{
-          duration: 10,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-      />
-      
-      {/* Subtle center glow */}
-      <div 
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px]"
-        style={{
-          background: 'radial-gradient(circle, rgba(0,240,255,0.05) 0%, transparent 50%)',
-          filter: 'blur(60px)',
-        }}
-      />
-      
-      {/* Grid overlay - very subtle */}
-      <div 
-        className="absolute inset-0 opacity-[0.015]"
-        style={{
-          backgroundImage: `
-            linear-gradient(rgba(255,255,255,1) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)
-          `,
-          backgroundSize: '100px 100px',
-        }}
-      />
-    </div>
-  )
-}
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// FLOATING PARTICLES
-// ═══════════════════════════════════════════════════════════════════════════════
-
-function Particles() {
-  const particles = Array.from({ length: 30 }, (_, i) => ({
-    id: i,
-    size: Math.random() * 2 + 1,
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    duration: Math.random() * 15 + 15,
-    delay: Math.random() * 5,
-    glow: i % 4 === 0,
-  }))
-
+function Background() {
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden">
-      {particles.map((p) => (
-        <motion.div
-          key={p.id}
-          className="absolute rounded-full"
-          style={{
-            width: p.size,
-            height: p.size,
-            left: `${p.x}%`,
-            top: `${p.y}%`,
-            background: p.glow ? 'rgba(0,240,255,0.8)' : 'rgba(255,255,255,0.2)',
-            boxShadow: p.glow ? '0 0 15px rgba(0,240,255,0.5)' : 'none',
-          }}
-          animate={{
-            y: [0, -40, 0],
-            x: [0, Math.random() * 30 - 15, 0],
-            opacity: [0.2, 0.8, 0.2],
-          }}
-          transition={{
-            duration: p.duration,
-            repeat: Infinity,
-            delay: p.delay,
-            ease: "easeInOut",
-          }}
-        />
-      ))}
+      {/* Base */}
+      <div className="absolute inset-0 bg-[#0C0C0C]" />
+      
+      {/* Subtle warm gradient - top */}
+      <div 
+        className="absolute -top-1/2 left-1/2 -translate-x-1/2 w-[1400px] h-[1400px] rounded-full"
+        style={{
+          background: 'radial-gradient(circle, rgba(201,169,98,0.04) 0%, transparent 60%)',
+        }}
+      />
+      
+      {/* Very subtle side accents */}
+      <div 
+        className="absolute top-1/3 -left-1/4 w-[800px] h-[800px] rounded-full"
+        style={{
+          background: 'radial-gradient(circle, rgba(245,245,243,0.015) 0%, transparent 50%)',
+        }}
+      />
     </div>
   )
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// HARVARD VERITAS SHIELD - Proper design
+// HARVARD SHIELD - Elegant, subtle
 // ═══════════════════════════════════════════════════════════════════════════════
 
 function HarvardShield({ className = '' }: { className?: string }) {
   return (
-    <svg viewBox="0 0 40 48" className={className} fill="none">
-      {/* Shield shape */}
+    <svg viewBox="0 0 32 40" className={className} fill="none">
       <path 
-        d="M20 0L40 8V28C40 38 30 46 20 48C10 46 0 38 0 28V8L20 0Z" 
+        d="M16 0L32 6.5V25C32 32 24 38 16 40C8 38 0 32 0 25V6.5L16 0Z" 
         fill="#A51C30"
       />
-      {/* Inner border */}
-      <path 
-        d="M20 2L38 9V28C38 36.5 29 44 20 46C11 44 2 36.5 2 28V9L20 2Z" 
-        fill="none"
-        stroke="#C41E3A"
-        strokeWidth="0.5"
-      />
-      {/* Three books */}
-      {/* Top left book */}
-      <rect x="6" y="12" width="12" height="9" rx="1" fill="#FFF" fillOpacity="0.95"/>
-      <line x1="12" y1="12" x2="12" y2="21" stroke="#A51C30" strokeWidth="0.5"/>
-      <text x="12" y="18" textAnchor="middle" fill="#A51C30" fontSize="5" fontWeight="bold" fontFamily="Georgia, serif">VE</text>
-      
-      {/* Top right book */}
-      <rect x="22" y="12" width="12" height="9" rx="1" fill="#FFF" fillOpacity="0.95"/>
-      <line x1="28" y1="12" x2="28" y2="21" stroke="#A51C30" strokeWidth="0.5"/>
-      <text x="28" y="18" textAnchor="middle" fill="#A51C30" fontSize="5" fontWeight="bold" fontFamily="Georgia, serif">RI</text>
-      
-      {/* Bottom book */}
-      <rect x="14" y="24" width="12" height="9" rx="1" fill="#FFF" fillOpacity="0.95"/>
-      <line x1="20" y1="24" x2="20" y2="33" stroke="#A51C30" strokeWidth="0.5"/>
-      <text x="20" y="30" textAnchor="middle" fill="#A51C30" fontSize="5" fontWeight="bold" fontFamily="Georgia, serif">TAS</text>
+      {/* Books simplified but proper */}
+      <rect x="5" y="10" width="9" height="7" rx="0.5" fill="#F5F5F3"/>
+      <rect x="18" y="10" width="9" height="7" rx="0.5" fill="#F5F5F3"/>
+      <rect x="11.5" y="20" width="9" height="7" rx="0.5" fill="#F5F5F3"/>
+      {/* VERITAS text */}
+      <text x="9.5" y="15.5" fill="#A51C30" fontSize="3.5" fontWeight="600" fontFamily="serif">VE</text>
+      <text x="22.5" y="15.5" fill="#A51C30" fontSize="3.5" fontWeight="600" fontFamily="serif" textAnchor="middle">RI</text>
+      <text x="16" y="25.5" fill="#A51C30" fontSize="3.5" fontWeight="600" fontFamily="serif" textAnchor="middle">TAS</text>
     </svg>
   )
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// NAVBAR
+// NAVBAR - Minimal, refined
 // ═══════════════════════════════════════════════════════════════════════════════
 
 function Navbar({ lang, setLang }: { lang: Lang, setLang: (l: Lang) => void }) {
-  const [scrolled, setScrolled] = useState(false)
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50)
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 reveal-1 ${
-      scrolled ? 'backdrop-blur-2xl bg-black/60 border-b border-white/5' : ''
-    }`}>
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 h-20 flex items-center justify-between">
-        {/* Logo */}
+    <nav className="fixed top-0 left-0 right-0 z-50 reveal-1">
+      <div className="max-w-6xl mx-auto px-8 h-24 flex items-center justify-between">
+        {/* Logo - Simple, elegant */}
         <div className="flex items-center gap-3">
-          <div className="relative">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#00F0FF] to-[#00B4D8] flex items-center justify-center animate-glow-pulse">
-              <span className="font-display font-bold text-black text-lg">V</span>
-            </div>
-          </div>
-          <span className="font-display text-2xl font-bold tracking-tight">VULKN</span>
-        </div>
-        
-        {/* Center nav */}
-        <div className="hidden lg:flex items-center gap-10">
-          {['How It Works', 'Features', 'Pricing', 'Case Studies'].map((item) => (
-            <a
-              key={item}
-              href={`#${item.toLowerCase().replace(/\s/g, '-')}`}
-              className="text-sm text-[#888] hover:text-white transition-colors duration-300 relative group"
-            >
-              {item}
-              <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-gradient-to-r from-[#00F0FF] to-transparent group-hover:w-full transition-all duration-300" />
-            </a>
-          ))}
+          <span className="font-display text-2xl tracking-wide">VULKN</span>
         </div>
         
         {/* Right side */}
-        <div className="flex items-center gap-5">
-          {/* Language */}
+        <div className="flex items-center gap-8">
           <button 
             onClick={() => setLang(lang === 'en' ? 'es' : 'en')}
-            className="text-sm text-[#666] hover:text-white transition-colors font-medium"
+            className="text-sm text-[#6B6B69] hover:text-[#A8A8A6] transition-colors duration-500"
           >
-            {lang.toUpperCase()}
+            {lang === 'en' ? 'ES' : 'EN'}
           </button>
           
-          {/* CTA */}
-          <button className="hidden sm:flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-black bg-white rounded-full hover:bg-white/90 transition-all hover:scale-105">
-            Get Started
+          <button className="text-sm text-[#A8A8A6] hover:text-[#F5F5F3] transition-colors duration-500">
+            Contact
           </button>
         </div>
       </div>
     </nav>
-  )
-}
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// ANIMATED STAT
-// ═══════════════════════════════════════════════════════════════════════════════
-
-function AnimatedStat({ value, label, suffix, delay }: { value: string, label: string, suffix?: string, delay: number }) {
-  const [count, setCount] = useState(0)
-  const numericValue = parseFloat(value.replace(/[^0-9.]/g, ''))
-  const hasM = value.includes('M')
-  const hasPercent = value.includes('%') || suffix === '%'
-  const hasDollar = value.includes('$')
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      const duration = 2000
-      const steps = 60
-      const increment = numericValue / steps
-      let current = 0
-      
-      const timer = setInterval(() => {
-        current += increment
-        if (current >= numericValue) {
-          setCount(numericValue)
-          clearInterval(timer)
-        } else {
-          setCount(current)
-        }
-      }, duration / steps)
-
-      return () => clearInterval(timer)
-    }, delay * 1000)
-
-    return () => clearTimeout(timeout)
-  }, [numericValue, delay])
-
-  const displayValue = hasM 
-    ? `${count.toFixed(1)}M`
-    : Math.round(count).toString()
-
-  return (
-    <div className="text-center group">
-      <div className="relative">
-        <span className="font-display text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight gradient-text-cyan text-glow">
-          {hasDollar && '$'}{displayValue}{hasPercent && '%'}{suffix && !hasPercent && ` ${suffix}`}
-        </span>
-      </div>
-      <div className="text-xs sm:text-sm text-[#555] mt-3 uppercase tracking-[0.25em] font-medium">
-        {label}
-      </div>
-    </div>
   )
 }
 
@@ -331,111 +133,113 @@ export default function Home() {
   useEffect(() => { setMounted(true) }, [])
   
   if (!mounted) {
-    return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#00F0FF] to-[#00B4D8] animate-pulse" />
-      </div>
-    )
+    return <div className="min-h-screen bg-[#0C0C0C]" />
   }
+
+  // Split headline for styling
+  const lines = t.h1.split('\n')
 
   return (
     <main className="min-h-screen relative">
-      <GradientMesh />
-      <Particles />
+      <Background />
       <div className="noise" />
       <Navbar lang={lang} setLang={setLang} />
       
       {/* ═══════════════════════════════════════════════════════════════════════
-          HERO - The Impact Zone
+          HERO - Elegant, premium, Steve Jobs approved
           ═══════════════════════════════════════════════════════════════════════ */}
-      <section className="relative min-h-screen flex items-center justify-center px-6 pt-20">
-        <div className="relative z-10 max-w-6xl mx-auto text-center">
+      <section className="relative min-h-screen flex flex-col items-center justify-center px-8">
+        <div className="relative z-10 max-w-5xl mx-auto text-center">
           
-          {/* Badge Row */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16 reveal-2">
-            {/* Status badge */}
-            <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-[#00F0FF]/5 border border-[#00F0FF]/20 backdrop-blur-sm">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00F0FF] opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00F0FF]"></span>
-              </span>
-              <span className="text-sm text-[#00F0FF] font-medium tracking-wide">{t.badge}</span>
-            </div>
-            
-            {/* Harvard badge */}
-            <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-white/[0.02] border border-white/10 backdrop-blur-sm">
-              <HarvardShield className="w-5 h-6" />
-              <span className="text-sm text-[#888]">Harvard Innovation Labs</span>
-            </div>
+          {/* Tagline */}
+          <div className="mb-8 reveal-2">
+            <span className="text-sm tracking-[0.3em] uppercase text-[#C9A962]">
+              {t.tagline}
+            </span>
           </div>
           
-          {/* HEADLINE - The star of the show */}
-          <h1 className="font-display font-extrabold tracking-[-0.04em] leading-[0.95] mb-10">
-            {/* Line 1 */}
-            <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-[#888] reveal-3">
-              {t.h1a}
-            </span>
-            {/* Line 2 - THE IMPACT */}
-            <span className="block text-6xl sm:text-7xl md:text-8xl lg:text-[10rem] gradient-text-cyan text-glow reveal-scale mt-2">
-              {t.h1b}
-            </span>
-            {/* Line 3 */}
-            <span className="block text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-[#555] reveal-4 mt-4">
-              {t.h1c}
-            </span>
-            {/* Line 4 */}
-            <span className="block text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-white reveal-5 mt-2">
-              {t.h1d}<span className="text-[#333]">.</span>
-            </span>
+          {/* Divider */}
+          <div className="divider mx-auto mb-16 reveal-2" />
+          
+          {/* HEADLINE - The star, elegant serif */}
+          <h1 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-medium tracking-[-0.02em] leading-[1.1] mb-16 reveal-3">
+            {lines.map((line, i) => (
+              <span key={i} className="block">
+                {line.includes('6') ? (
+                  // Emphasize the numbers
+                  line.split(/(\d+\s*\w+)/).map((part, j) => (
+                    part.match(/\d/) ? (
+                      <span key={j} className="text-[#C9A962]">{part}</span>
+                    ) : (
+                      <span key={j} className={i === 2 ? 'text-[#6B6B69]' : ''}>{part}</span>
+                    )
+                  ))
+                ) : (
+                  <span className={i === 1 ? 'text-[#A8A8A6]' : ''}>{line}</span>
+                )}
+              </span>
+            ))}
           </h1>
           
           {/* Subtitle */}
-          <p className="text-lg sm:text-xl text-[#777] max-w-2xl mx-auto mb-14 leading-relaxed font-body reveal-5">
+          <p className="text-lg sm:text-xl text-[#6B6B69] max-w-xl mx-auto mb-16 leading-relaxed reveal-4">
             {t.sub}
           </p>
           
-          {/* CTAs */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-5 mb-24 reveal-6">
-            <button className="btn-epic">
+          {/* CTAs - Refined, premium */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-5 mb-24 reveal-5">
+            <motion.button 
+              className="btn-primary"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
               {t.cta}
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </button>
+            </motion.button>
             
-            <button className="btn-ghost">
+            <motion.button 
+              className="btn-secondary"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
               {t.cta2}
-            </button>
+            </motion.button>
           </div>
           
-          {/* Stats */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 sm:gap-16 max-w-4xl mx-auto reveal-6">
+          {/* Stats - Clean, minimal */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-12 sm:gap-16 max-w-3xl mx-auto mb-20 reveal-6">
             {t.stats.map((stat, i) => (
-              <AnimatedStat 
-                key={i}
-                value={stat.value}
-                label={stat.label}
-                suffix={stat.suffix}
-                delay={1.2 + i * 0.2}
-              />
+              <div key={i} className="text-center">
+                <div className="font-display text-4xl sm:text-5xl font-medium tracking-tight text-[#F5F5F3] mb-2">
+                  {stat.value}
+                </div>
+                <div className="text-xs text-[#6B6B69] uppercase tracking-[0.2em]">
+                  {stat.label}
+                </div>
+              </div>
             ))}
+          </div>
+          
+          {/* Harvard - Subtle, prestigious */}
+          <div className="flex items-center justify-center gap-4 reveal-7">
+            <HarvardShield className="w-6 h-8 opacity-60" />
+            <span className="text-sm text-[#6B6B69] tracking-wide">
+              {t.trusted}
+            </span>
           </div>
         </div>
         
-        {/* Scroll indicator */}
+        {/* Scroll hint - Very subtle */}
         <motion.div
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2.5 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+          animate={{ opacity: 0.3 }}
+          transition={{ delay: 2 }}
+          className="absolute bottom-12 left-1/2 -translate-x-1/2"
         >
           <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-            className="w-7 h-12 rounded-full border-2 border-white/10 flex items-start justify-center p-2"
-          >
-            <div className="w-1.5 h-3 rounded-full bg-[#00F0FF]" />
-          </motion.div>
+            animate={{ y: [0, 6, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            className="w-[1px] h-12 bg-gradient-to-b from-[#6B6B69] to-transparent"
+          />
         </motion.div>
       </section>
     </main>

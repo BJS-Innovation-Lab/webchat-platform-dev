@@ -1,26 +1,26 @@
 import type { Metadata } from "next";
-import { Syne, Outfit } from "next/font/google";
+import { Playfair_Display, DM_Sans } from "next/font/google";
 import "./globals.css";
 
-// Syne - Dramatic, geometric, memorable display font
-const syne = Syne({ 
+// Playfair Display - Elegant, editorial, premium serif
+const playfair = Playfair_Display({ 
   subsets: ["latin"],
   variable: "--font-display",
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["400", "500", "600", "700"],
 });
 
-// Outfit - Modern, clean body font
-const outfit = Outfit({ 
+// DM Sans - Clean, friendly, modern
+const dmSans = DM_Sans({ 
   subsets: ["latin"],
   variable: "--font-body",
-  weight: ["300", "400", "500", "600"],
+  weight: ["400", "500", "600"],
 });
 
 export const metadata: Metadata = {
-  title: "VULKN - Deploy in 6 Days What Takes Others 6 Months",
-  description: "The autonomous AI platform that builds, operates, and scales your entire digital business. Harvard Innovation Labs partner.",
+  title: "VULKN - The Future of Enterprise AI",
+  description: "Deploy in 6 days what takes others 6 months. The autonomous AI platform trusted by industry leaders.",
   openGraph: {
-    title: "VULKN - Enterprise AI Platform",
+    title: "VULKN - The Future of Enterprise AI",
     description: "Deploy in 6 days what takes others 6 months.",
     type: "website",
   },
@@ -32,7 +32,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${syne.variable} ${outfit.variable}`}>
+    <html lang="en" className={`${playfair.variable} ${dmSans.variable}`}>
       <body className="font-body antialiased">{children}</body>
     </html>
   );
