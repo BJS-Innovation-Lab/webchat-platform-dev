@@ -1,22 +1,24 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Plus_Jakarta_Sans } from "next/font/google";
+import { Syne, Outfit } from "next/font/google";
 import "./globals.css";
 
-const spaceGrotesk = Space_Grotesk({ 
+// Syne - Dramatic, geometric, memorable display font
+const syne = Syne({ 
   subsets: ["latin"],
   variable: "--font-display",
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
-const plusJakarta = Plus_Jakarta_Sans({ 
+// Outfit - Modern, clean body font
+const outfit = Outfit({ 
   subsets: ["latin"],
   variable: "--font-body",
-  weight: ["400", "500", "600"],
+  weight: ["300", "400", "500", "600"],
 });
 
 export const metadata: Metadata = {
-  title: "VULKN - Enterprise AI Platform",
-  description: "Deploy in 6 days what takes others 6 months. The autonomous AI platform that builds, operates, and scales your entire digital business.",
+  title: "VULKN - Deploy in 6 Days What Takes Others 6 Months",
+  description: "The autonomous AI platform that builds, operates, and scales your entire digital business. Harvard Innovation Labs partner.",
   openGraph: {
     title: "VULKN - Enterprise AI Platform",
     description: "Deploy in 6 days what takes others 6 months.",
@@ -30,7 +32,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${spaceGrotesk.variable} ${plusJakarta.variable}`}>
+    <html lang="en" className={`${syne.variable} ${outfit.variable}`}>
       <body className="font-body antialiased">{children}</body>
     </html>
   );

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { motion, useMotionValue, useSpring } from 'framer-motion'
+import { motion, useMotionValue, useSpring, useScroll, useTransform } from 'framer-motion'
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // CONTENT
@@ -10,30 +10,32 @@ import { motion, useMotionValue, useSpring } from 'framer-motion'
 const content = {
   en: {
     badge: 'Limited spots for Q1 2025',
-    harvard: 'Harvard Innovation Labs',
-    h1a: 'Deploy in 6 days',
-    h1b: 'what takes others 6 months.',
+    h1a: 'Deploy in',
+    h1b: '6 days',
+    h1c: 'what takes others',
+    h1d: '6 months',
     sub: 'VULKN is the autonomous AI platform that builds, operates, and scales your entire digital business — while your competitors are still hiring.',
     cta: 'Start Your Transformation',
     cta2: 'Book a Demo',
     stats: [
-      { value: '$2.4M', label: 'Avg. annual savings', suffix: '' },
-      { value: '47', label: 'Efficiency gain', suffix: '%' },
-      { value: '6', label: 'Days to deployment', suffix: ' days' },
+      { value: '$2.4M', label: 'Avg. annual savings' },
+      { value: '47%', label: 'Efficiency gain' },
+      { value: '6', label: 'Days to deploy', suffix: 'days' },
     ],
   },
   es: {
     badge: 'Plazas limitadas para Q1 2025',
-    harvard: 'Harvard Innovation Labs',
-    h1a: 'Despliega en 6 días',
-    h1b: 'lo que a otros les toma 6 meses.',
+    h1a: 'Despliega en',
+    h1b: '6 días',
+    h1c: 'lo que a otros les toma',
+    h1d: '6 meses',
     sub: 'VULKN es la plataforma de IA autónoma que construye, opera y escala todo tu negocio digital — mientras tu competencia sigue contratando.',
     cta: 'Inicia Tu Transformación',
     cta2: 'Agendar Demo',
     stats: [
-      { value: '$2.4M', label: 'Ahorro anual promedio', suffix: '' },
-      { value: '47', label: 'Ganancia en eficiencia', suffix: '%' },
-      { value: '6', label: 'Días para implementar', suffix: ' días' },
+      { value: '$2.4M', label: 'Ahorro anual prom.' },
+      { value: '47%', label: 'Ganancia eficiencia' },
+      { value: '6', label: 'Días para implementar', suffix: 'días' },
     ],
   },
 }
@@ -41,60 +43,24 @@ const content = {
 type Lang = 'en' | 'es'
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// ANIMATED BACKGROUND - Gradient Orbs + Particles
+// GRADIENT MESH BACKGROUND - Linear style
 // ═══════════════════════════════════════════════════════════════════════════════
 
-function AnimatedBackground() {
+function GradientMesh() {
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none">
-      {/* Base gradient */}
-      <div className="absolute inset-0 bg-[#050505]" />
+      {/* Base void */}
+      <div className="absolute inset-0 bg-black" />
       
-      {/* Gradient orbs - breathing animation */}
+      {/* Main gradient orb - top center */}
       <motion.div 
-        className="absolute -top-1/4 -left-1/4 w-[800px] h-[800px] rounded-full animate-breathe"
+        className="absolute -top-[30%] left-1/2 -translate-x-1/2 w-[1200px] h-[1200px] animate-pulse-slow"
         style={{
-          background: 'radial-gradient(circle, rgba(0,229,255,0.15) 0%, transparent 70%)',
-          filter: 'blur(60px)',
-        }}
-        animate={{
-          x: [0, 50, 0],
-          y: [0, 30, 0],
-        }}
-        transition={{
-          duration: 15,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-      />
-      
-      <motion.div 
-        className="absolute -bottom-1/4 -right-1/4 w-[600px] h-[600px] rounded-full animate-breathe"
-        style={{
-          background: 'radial-gradient(circle, rgba(139,92,246,0.12) 0%, transparent 70%)',
-          filter: 'blur(60px)',
-          animationDelay: '2s',
-        }}
-        animate={{
-          x: [0, -40, 0],
-          y: [0, -40, 0],
-        }}
-        transition={{
-          duration: 12,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-      />
-      
-      <motion.div 
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full"
-        style={{
-          background: 'radial-gradient(circle, rgba(0,229,255,0.08) 0%, transparent 60%)',
+          background: 'radial-gradient(circle, rgba(0,240,255,0.15) 0%, rgba(139,92,246,0.08) 40%, transparent 70%)',
           filter: 'blur(80px)',
         }}
         animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.5, 0.8, 0.5],
+          scale: [1, 1.1, 1],
         }}
         transition={{
           duration: 8,
@@ -103,36 +69,75 @@ function AnimatedBackground() {
         }}
       />
       
-      {/* Subtle grid */}
-      <div 
-        className="absolute inset-0 opacity-[0.02]"
+      {/* Secondary orb - left */}
+      <motion.div 
+        className="absolute top-1/4 -left-[20%] w-[800px] h-[800px] animate-float"
         style={{
-          backgroundImage: `
-            linear-gradient(rgba(0,229,255,0.5) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0,229,255,0.5) 1px, transparent 1px)
-          `,
-          backgroundSize: '80px 80px',
+          background: 'radial-gradient(circle, rgba(139,92,246,0.12) 0%, transparent 60%)',
+          filter: 'blur(100px)',
+          animationDelay: '2s',
         }}
       />
       
-      {/* Floating particles */}
-      <Particles />
+      {/* Tertiary orb - right bottom */}
+      <motion.div 
+        className="absolute -bottom-[10%] -right-[10%] w-[700px] h-[700px] animate-morph"
+        style={{
+          background: 'radial-gradient(circle, rgba(0,240,255,0.1) 0%, rgba(255,107,53,0.05) 50%, transparent 70%)',
+          filter: 'blur(80px)',
+        }}
+        animate={{
+          x: [0, 30, 0],
+          y: [0, -20, 0],
+        }}
+        transition={{
+          duration: 10,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
+      
+      {/* Subtle center glow */}
+      <div 
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px]"
+        style={{
+          background: 'radial-gradient(circle, rgba(0,240,255,0.05) 0%, transparent 50%)',
+          filter: 'blur(60px)',
+        }}
+      />
+      
+      {/* Grid overlay - very subtle */}
+      <div 
+        className="absolute inset-0 opacity-[0.015]"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(255,255,255,1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)
+          `,
+          backgroundSize: '100px 100px',
+        }}
+      />
     </div>
   )
 }
 
+// ═══════════════════════════════════════════════════════════════════════════════
+// FLOATING PARTICLES
+// ═══════════════════════════════════════════════════════════════════════════════
+
 function Particles() {
-  const particles = Array.from({ length: 40 }, (_, i) => ({
+  const particles = Array.from({ length: 30 }, (_, i) => ({
     id: i,
-    size: Math.random() * 3 + 1,
+    size: Math.random() * 2 + 1,
     x: Math.random() * 100,
     y: Math.random() * 100,
-    duration: Math.random() * 10 + 10,
+    duration: Math.random() * 15 + 15,
     delay: Math.random() * 5,
+    glow: i % 4 === 0,
   }))
 
   return (
-    <>
+    <div className="fixed inset-0 pointer-events-none overflow-hidden">
       {particles.map((p) => (
         <motion.div
           key={p.id}
@@ -142,13 +147,13 @@ function Particles() {
             height: p.size,
             left: `${p.x}%`,
             top: `${p.y}%`,
-            background: p.id % 3 === 0 ? 'rgba(0,229,255,0.6)' : 'rgba(255,255,255,0.3)',
-            boxShadow: p.id % 3 === 0 ? '0 0 10px rgba(0,229,255,0.4)' : 'none',
+            background: p.glow ? 'rgba(0,240,255,0.8)' : 'rgba(255,255,255,0.2)',
+            boxShadow: p.glow ? '0 0 15px rgba(0,240,255,0.5)' : 'none',
           }}
           animate={{
-            y: [0, -30, 0],
-            x: [0, Math.random() * 20 - 10, 0],
-            opacity: [0.3, 0.8, 0.3],
+            y: [0, -40, 0],
+            x: [0, Math.random() * 30 - 15, 0],
+            opacity: [0.2, 0.8, 0.2],
           }}
           transition={{
             duration: p.duration,
@@ -158,117 +163,45 @@ function Particles() {
           }}
         />
       ))}
-    </>
+    </div>
   )
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// GRAIN OVERLAY
+// HARVARD VERITAS SHIELD - Proper design
 // ═══════════════════════════════════════════════════════════════════════════════
 
-function Grain() {
-  return <div className="grain" />
-}
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// MAGNETIC BUTTON
-// ═══════════════════════════════════════════════════════════════════════════════
-
-function MagneticButton({ children, className = '', onClick }: { children: React.ReactNode, className?: string, onClick?: () => void }) {
-  const ref = useRef<HTMLButtonElement>(null)
-  const x = useMotionValue(0)
-  const y = useMotionValue(0)
-  
-  const springX = useSpring(x, { stiffness: 300, damping: 20 })
-  const springY = useSpring(y, { stiffness: 300, damping: 20 })
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!ref.current) return
-    const rect = ref.current.getBoundingClientRect()
-    const centerX = rect.left + rect.width / 2
-    const centerY = rect.top + rect.height / 2
-    x.set((e.clientX - centerX) * 0.15)
-    y.set((e.clientY - centerY) * 0.15)
-  }
-
-  const handleMouseLeave = () => {
-    x.set(0)
-    y.set(0)
-  }
-
+function HarvardShield({ className = '' }: { className?: string }) {
   return (
-    <motion.button
-      ref={ref}
-      style={{ x: springX, y: springY }}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      onClick={onClick}
-      className={className}
-    >
-      {children}
-    </motion.button>
-  )
-}
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// ANIMATED COUNTER
-// ═══════════════════════════════════════════════════════════════════════════════
-
-function AnimatedStat({ value, label, suffix, delay }: { value: string, label: string, suffix: string, delay: number }) {
-  const [displayValue, setDisplayValue] = useState('0')
-  const numericValue = parseFloat(value.replace(/[^0-9.]/g, ''))
-  const prefix = value.includes('$') ? '$' : ''
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      let start = 0
-      const end = numericValue
-      const duration = 2000
-      const increment = end / (duration / 16)
+    <svg viewBox="0 0 40 48" className={className} fill="none">
+      {/* Shield shape */}
+      <path 
+        d="M20 0L40 8V28C40 38 30 46 20 48C10 46 0 38 0 28V8L20 0Z" 
+        fill="#A51C30"
+      />
+      {/* Inner border */}
+      <path 
+        d="M20 2L38 9V28C38 36.5 29 44 20 46C11 44 2 36.5 2 28V9L20 2Z" 
+        fill="none"
+        stroke="#C41E3A"
+        strokeWidth="0.5"
+      />
+      {/* Three books */}
+      {/* Top left book */}
+      <rect x="6" y="12" width="12" height="9" rx="1" fill="#FFF" fillOpacity="0.95"/>
+      <line x1="12" y1="12" x2="12" y2="21" stroke="#A51C30" strokeWidth="0.5"/>
+      <text x="12" y="18" textAnchor="middle" fill="#A51C30" fontSize="5" fontWeight="bold" fontFamily="Georgia, serif">VE</text>
       
-      const counter = setInterval(() => {
-        start += increment
-        if (start >= end) {
-          setDisplayValue(value.replace('$', ''))
-          clearInterval(counter)
-        } else {
-          const formatted = value.includes('M') 
-            ? start.toFixed(1) + 'M'
-            : Math.floor(start).toString()
-          setDisplayValue(formatted)
-        }
-      }, 16)
+      {/* Top right book */}
+      <rect x="22" y="12" width="12" height="9" rx="1" fill="#FFF" fillOpacity="0.95"/>
+      <line x1="28" y1="12" x2="28" y2="21" stroke="#A51C30" strokeWidth="0.5"/>
+      <text x="28" y="18" textAnchor="middle" fill="#A51C30" fontSize="5" fontWeight="bold" fontFamily="Georgia, serif">RI</text>
       
-      return () => clearInterval(counter)
-    }, delay * 1000)
-    
-    return () => clearTimeout(timer)
-  }, [numericValue, value, delay])
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, delay: delay + 0.5 }}
-      className="text-center group"
-    >
-      <div className="relative inline-block">
-        <span className="font-display text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-[#00E5FF] to-[#00B8D4] text-glow-cyan">
-          {prefix}{displayValue}{suffix}
-        </span>
-        {/* Glow effect on hover */}
-        <motion.div 
-          className="absolute -inset-4 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-          style={{
-            background: 'radial-gradient(circle, rgba(0,229,255,0.2) 0%, transparent 70%)',
-            filter: 'blur(20px)',
-          }}
-        />
-      </div>
-      <div className="text-xs sm:text-sm text-[#71717A] mt-2 uppercase tracking-[0.2em] font-medium">
-        {label}
-      </div>
-    </motion.div>
+      {/* Bottom book */}
+      <rect x="14" y="24" width="12" height="9" rx="1" fill="#FFF" fillOpacity="0.95"/>
+      <line x1="20" y1="24" x2="20" y2="33" stroke="#A51C30" strokeWidth="0.5"/>
+      <text x="20" y="30" textAnchor="middle" fill="#A51C30" fontSize="5" fontWeight="bold" fontFamily="Georgia, serif">TAS</text>
+    </svg>
   )
 }
 
@@ -286,104 +219,108 @@ function Navbar({ lang, setLang }: { lang: Lang, setLang: (l: Lang) => void }) {
   }, [])
 
   return (
-    <motion.nav
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, delay: 0.2 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled ? 'backdrop-blur-xl bg-[#050505]/80 border-b border-white/5' : ''
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 reveal-1 ${
+      scrolled ? 'backdrop-blur-2xl bg-black/60 border-b border-white/5' : ''
+    }`}>
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 h-20 flex items-center justify-between">
         {/* Logo */}
-        <motion.div 
-          className="flex items-center gap-3"
-          whileHover={{ scale: 1.02 }}
-        >
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#00E5FF] to-[#00B8D4] flex items-center justify-center">
-            <span className="font-display font-bold text-black text-sm">V</span>
+        <div className="flex items-center gap-3">
+          <div className="relative">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#00F0FF] to-[#00B4D8] flex items-center justify-center animate-glow-pulse">
+              <span className="font-display font-bold text-black text-lg">V</span>
+            </div>
           </div>
-          <span className="font-display text-xl font-semibold tracking-tight">VULKN</span>
-        </motion.div>
+          <span className="font-display text-2xl font-bold tracking-tight">VULKN</span>
+        </div>
         
-        {/* Nav links */}
-        <div className="hidden md:flex items-center gap-8">
-          {['How It Works', 'Features', 'Pricing'].map((item, i) => (
-            <motion.a
+        {/* Center nav */}
+        <div className="hidden lg:flex items-center gap-10">
+          {['How It Works', 'Features', 'Pricing', 'Case Studies'].map((item) => (
+            <a
               key={item}
               href={`#${item.toLowerCase().replace(/\s/g, '-')}`}
-              className="text-sm text-[#A1A1AA] hover:text-white transition-colors relative group"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 + i * 0.1 }}
+              className="text-sm text-[#888] hover:text-white transition-colors duration-300 relative group"
             >
               {item}
-              <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#00E5FF] group-hover:w-full transition-all duration-300" />
-            </motion.a>
+              <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-gradient-to-r from-[#00F0FF] to-transparent group-hover:w-full transition-all duration-300" />
+            </a>
           ))}
         </div>
         
         {/* Right side */}
-        <div className="flex items-center gap-4">
-          {/* Language toggle */}
-          <motion.button 
+        <div className="flex items-center gap-5">
+          {/* Language */}
+          <button 
             onClick={() => setLang(lang === 'en' ? 'es' : 'en')}
-            className="relative w-16 h-8 rounded-full bg-white/5 border border-white/10 text-xs font-medium overflow-hidden"
-            whileHover={{ borderColor: 'rgba(0,229,255,0.3)' }}
+            className="text-sm text-[#666] hover:text-white transition-colors font-medium"
           >
-            <motion.div
-              className="absolute inset-0 flex items-center"
-              animate={{ x: lang === 'en' ? 0 : 32 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-            >
-              <span className="w-8 flex justify-center text-white">EN</span>
-              <span className="w-8 flex justify-center text-white">ES</span>
-            </motion.div>
-            <motion.div
-              className="absolute top-1 left-1 w-6 h-6 rounded-full bg-[#00E5FF]"
-              animate={{ x: lang === 'en' ? 0 : 32 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-            />
-          </motion.button>
+            {lang.toUpperCase()}
+          </button>
           
           {/* CTA */}
-          <MagneticButton className="hidden sm:block btn-secondary text-sm px-5 py-2.5">
-            Contact
-          </MagneticButton>
+          <button className="hidden sm:flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-black bg-white rounded-full hover:bg-white/90 transition-all hover:scale-105">
+            Get Started
+          </button>
         </div>
       </div>
-    </motion.nav>
+    </nav>
   )
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// HARVARD BADGE
+// ANIMATED STAT
 // ═══════════════════════════════════════════════════════════════════════════════
 
-function HarvardBadge({ text }: { text: string }) {
+function AnimatedStat({ value, label, suffix, delay }: { value: string, label: string, suffix?: string, delay: number }) {
+  const [count, setCount] = useState(0)
+  const numericValue = parseFloat(value.replace(/[^0-9.]/g, ''))
+  const hasM = value.includes('M')
+  const hasPercent = value.includes('%') || suffix === '%'
+  const hasDollar = value.includes('$')
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      const duration = 2000
+      const steps = 60
+      const increment = numericValue / steps
+      let current = 0
+      
+      const timer = setInterval(() => {
+        current += increment
+        if (current >= numericValue) {
+          setCount(numericValue)
+          clearInterval(timer)
+        } else {
+          setCount(current)
+        }
+      }, duration / steps)
+
+      return () => clearInterval(timer)
+    }, delay * 1000)
+
+    return () => clearTimeout(timeout)
+  }, [numericValue, delay])
+
+  const displayValue = hasM 
+    ? `${count.toFixed(1)}M`
+    : Math.round(count).toString()
+
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.6, delay: 0.4 }}
-      className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/[0.03] border border-white/10 backdrop-blur-sm"
-    >
-      {/* Harvard Shield */}
-      <div className="w-5 h-6 relative">
-        <svg viewBox="0 0 24 30" fill="none" className="w-full h-full">
-          <path d="M12 0L24 8V22L12 30L0 22V8L12 0Z" fill="#A51C30"/>
-          <text x="12" y="11" textAnchor="middle" fill="white" fontSize="4" fontWeight="bold" fontFamily="serif">VE</text>
-          <text x="12" y="17" textAnchor="middle" fill="white" fontSize="4" fontWeight="bold" fontFamily="serif">RI</text>
-          <text x="12" y="23" textAnchor="middle" fill="white" fontSize="4" fontWeight="bold" fontFamily="serif">TAS</text>
-        </svg>
+    <div className="text-center group">
+      <div className="relative">
+        <span className="font-display text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight gradient-text-cyan text-glow">
+          {hasDollar && '$'}{displayValue}{hasPercent && '%'}{suffix && !hasPercent && ` ${suffix}`}
+        </span>
       </div>
-      <span className="text-sm text-[#A1A1AA]">{text}</span>
-    </motion.div>
+      <div className="text-xs sm:text-sm text-[#555] mt-3 uppercase tracking-[0.25em] font-medium">
+        {label}
+      </div>
+    </div>
   )
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// MAIN PAGE
+// MAIN
 // ═══════════════════════════════════════════════════════════════════════════════
 
 export default function Home() {
@@ -392,117 +329,114 @@ export default function Home() {
   const t = content[lang]
 
   useEffect(() => { setMounted(true) }, [])
-  if (!mounted) return null
+  
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#00F0FF] to-[#00B4D8] animate-pulse" />
+      </div>
+    )
+  }
 
   return (
     <main className="min-h-screen relative">
-      <AnimatedBackground />
-      <Grain />
+      <GradientMesh />
+      <Particles />
+      <div className="noise" />
       <Navbar lang={lang} setLang={setLang} />
       
       {/* ═══════════════════════════════════════════════════════════════════════
-          HERO SECTION
+          HERO - The Impact Zone
           ═══════════════════════════════════════════════════════════════════════ */}
       <section className="relative min-h-screen flex items-center justify-center px-6 pt-20">
-        <div className="relative z-10 max-w-5xl mx-auto text-center">
+        <div className="relative z-10 max-w-6xl mx-auto text-center">
           
-          {/* Badge row */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12"
-          >
-            {/* Pulse badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#00E5FF]/10 border border-[#00E5FF]/20">
+          {/* Badge Row */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16 reveal-2">
+            {/* Status badge */}
+            <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-[#00F0FF]/5 border border-[#00F0FF]/20 backdrop-blur-sm">
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00E5FF] opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00E5FF]"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00F0FF] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00F0FF]"></span>
               </span>
-              <span className="text-sm text-[#00E5FF] font-medium">{t.badge}</span>
+              <span className="text-sm text-[#00F0FF] font-medium tracking-wide">{t.badge}</span>
             </div>
             
-            <HarvardBadge text={t.harvard} />
-          </motion.div>
+            {/* Harvard badge */}
+            <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-white/[0.02] border border-white/10 backdrop-blur-sm">
+              <HarvardShield className="w-5 h-6" />
+              <span className="text-sm text-[#888]">Harvard Innovation Labs</span>
+            </div>
+          </div>
           
-          {/* Headline */}
-          <motion.h1
-            className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-[-0.03em] leading-[1.05] mb-8"
-          >
-            <motion.span 
-              className="block text-white"
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
+          {/* HEADLINE - The star of the show */}
+          <h1 className="font-display font-extrabold tracking-[-0.04em] leading-[0.95] mb-10">
+            {/* Line 1 */}
+            <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-[#888] reveal-3">
               {t.h1a}
-            </motion.span>
-            <motion.span 
-              className="block text-transparent bg-clip-text bg-gradient-to-r from-[#52525B] to-[#71717A]"
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-            >
+            </span>
+            {/* Line 2 - THE IMPACT */}
+            <span className="block text-6xl sm:text-7xl md:text-8xl lg:text-[10rem] gradient-text-cyan text-glow reveal-scale mt-2">
               {t.h1b}
-            </motion.span>
-          </motion.h1>
+            </span>
+            {/* Line 3 */}
+            <span className="block text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-[#555] reveal-4 mt-4">
+              {t.h1c}
+            </span>
+            {/* Line 4 */}
+            <span className="block text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-white reveal-5 mt-2">
+              {t.h1d}<span className="text-[#333]">.</span>
+            </span>
+          </h1>
           
           {/* Subtitle */}
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="text-lg sm:text-xl text-[#A1A1AA] max-w-2xl mx-auto mb-12 leading-relaxed font-body"
-          >
+          <p className="text-lg sm:text-xl text-[#777] max-w-2xl mx-auto mb-14 leading-relaxed font-body reveal-5">
             {t.sub}
-          </motion.p>
+          </p>
           
           {/* CTAs */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.7 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20"
-          >
-            <MagneticButton className="btn-primary text-base font-semibold">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-5 mb-24 reveal-6">
+            <button className="btn-epic">
               {t.cta}
-              <span className="ml-2">→</span>
-            </MagneticButton>
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </button>
             
-            <MagneticButton className="btn-secondary text-base">
+            <button className="btn-ghost">
               {t.cta2}
-            </MagneticButton>
-          </motion.div>
+            </button>
+          </div>
           
           {/* Stats */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-12 max-w-3xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 sm:gap-16 max-w-4xl mx-auto reveal-6">
             {t.stats.map((stat, i) => (
               <AnimatedStat 
                 key={i}
                 value={stat.value}
                 label={stat.label}
                 suffix={stat.suffix}
-                delay={0.8 + i * 0.2}
+                delay={1.2 + i * 0.2}
               />
             ))}
           </div>
-          
-          {/* Scroll indicator */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 2 }}
-            className="absolute bottom-10 left-1/2 -translate-x-1/2"
-          >
-            <motion.div
-              animate={{ y: [0, 8, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-              className="w-6 h-10 rounded-full border-2 border-white/20 flex items-start justify-center p-2"
-            >
-              <div className="w-1 h-2 rounded-full bg-[#00E5FF]" />
-            </motion.div>
-          </motion.div>
         </div>
+        
+        {/* Scroll indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 2.5 }}
+          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        >
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+            className="w-7 h-12 rounded-full border-2 border-white/10 flex items-start justify-center p-2"
+          >
+            <div className="w-1.5 h-3 rounded-full bg-[#00F0FF]" />
+          </motion.div>
+        </motion.div>
       </section>
     </main>
   )
