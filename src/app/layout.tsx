@@ -1,15 +1,27 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Space_Grotesk, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ 
+const spaceGrotesk = Space_Grotesk({ 
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-display",
+  weight: ["400", "500", "600", "700"],
+});
+
+const plusJakarta = Plus_Jakarta_Sans({ 
+  subsets: ["latin"],
+  variable: "--font-body",
+  weight: ["400", "500", "600"],
 });
 
 export const metadata: Metadata = {
   title: "VULKN - Enterprise AI Platform",
-  description: "Deploy in 6 days what takes others 6 months.",
+  description: "Deploy in 6 days what takes others 6 months. The autonomous AI platform that builds, operates, and scales your entire digital business.",
+  openGraph: {
+    title: "VULKN - Enterprise AI Platform",
+    description: "Deploy in 6 days what takes others 6 months.",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
@@ -18,8 +30,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.variable}>
-      <body className={inter.className}>{children}</body>
+    <html lang="en" className={`${spaceGrotesk.variable} ${plusJakarta.variable}`}>
+      <body className="font-body antialiased">{children}</body>
     </html>
   );
 }
